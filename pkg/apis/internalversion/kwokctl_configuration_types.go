@@ -159,7 +159,7 @@ type KwokctlConfigurationOptions struct {
 	// EtcdPeerPort is etcd peer port in the binary runtime
 	EtcdPeerPort uint32
 
-	// EtcdPort is etcd port in the binary runtime
+	// EtcdPort is kwok-etcd port that is exposed to the host.
 	EtcdPort uint32
 
 	// KubeControllerManagerPort is kube-controller-manager port in the binary runtime

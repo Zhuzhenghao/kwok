@@ -254,7 +254,8 @@ type KwokctlConfigurationOptions struct {
 	// EtcdPeerPort is etcd peer port in the binary runtime
 	EtcdPeerPort uint32 `json:"etcdPeerPort,omitempty"`
 
-	// EtcdPort is etcd port in the binary runtime
+	// EtcdPort is kwok-etcd port that is exposed to the host.
+	// is the default value for flag --etcd-port and env KWOK_ETCD_PORT
 	EtcdPort uint32 `json:"etcdPort,omitempty"`
 
 	// KubeControllerManagerPort is kube-controller-manager port in the binary runtime

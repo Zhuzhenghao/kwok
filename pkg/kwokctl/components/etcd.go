@@ -17,6 +17,8 @@ limitations under the License.
 package components
 
 import (
+	"fmt"
+
 	"sigs.k8s.io/kwok/pkg/apis/internalversion"
 	"sigs.k8s.io/kwok/pkg/utils/format"
 	"sigs.k8s.io/kwok/pkg/utils/version"
@@ -39,11 +41,12 @@ func BuildEtcdComponent(conf BuildEtcdComponentConfig) (component internalversio
 	if conf.PeerPort == 0 {
 		conf.PeerPort = 2380
 	}
+	fmt.Print("etcd port is:", conf.Port)
 	if conf.Port == 0 {
 		conf.Port = 2379
 	}
 	if conf.Address == "" {
-		conf.Address = publicAddress
+		conf.Address = localAddress
 	}
 	etcdPeerPortStr := format.String(conf.PeerPort)
 	etcdClientPortStr := format.String(conf.Port)
