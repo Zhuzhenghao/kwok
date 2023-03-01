@@ -58,7 +58,7 @@ spec:
         {{ end }}
 
       {{ with .status }}
-      hostIP: {{ with .hostIP -}} 
+      hostIP: {{ with .hostIP -}}
         {{- . -}}
       {{- else -}}
         {{- NodeIP $nodeName -}}
