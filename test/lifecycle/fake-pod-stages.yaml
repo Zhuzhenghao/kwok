@@ -14,9 +14,9 @@ spec:
         app: test-pod-had-init
     spec:
       tolerations:
-        - key: "kwok-controller/provider"
-          operator: "Exists"
-          effect: "NoSchedule"
+        - key: kwok-controller/provider
+          operator: Exists
+          effect: NoSchedule
       initContainers:
         - name: init-0
           image: fake
@@ -44,9 +44,9 @@ spec:
         app: test-pod
     spec:
       tolerations:
-        - key: "kwok-controller/provider"
-          operator: "Exists"
-          effect: "NoSchedule"
+        - key: kwok-controller/provider
+          operator: Exists
+          effect: NoSchedule
       containers:
         - name: container-0
           image: fake
@@ -61,9 +61,9 @@ spec:
   template:
     spec:
       tolerations:
-        - key: "kwok-controller/provider"
-          operator: "Exists"
-          effect: "NoSchedule"
+        - key: kwok-controller/provider
+          operator: Exists
+          effect: NoSchedule
       containers:
         - name: job
           image: fake

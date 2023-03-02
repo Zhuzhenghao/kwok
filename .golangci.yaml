@@ -83,7 +83,8 @@ linters-settings:
 issues:
   max-same-issues: 0
   max-issues-per-linter: 0
-  # We are disabling default golangci exclusions because we want to help reviewers to focus on reviewing the most relevant
+  # We are disabling default golangci exclusions
+  # because we want to help reviewers to focus on reviewing the most relevant
   # changes in PRs and avoid nitpicking.
   exclude-use-default: false
   # List of regexps of issue texts to exclude, empty list by default.

@@ -8,10 +8,10 @@ spec:
     kind: Pod
   selector:
     matchExpressions:
-      - key: ".metadata.deletionTimestamp"
-        operator: "DoesNotExist"
-      - key: ".status.podIP"
-        operator: "DoesNotExist"
+      - key: .metadata.deletionTimestamp
+        operator: DoesNotExist
+      - key: .status.podIP
+        operator: DoesNotExist
   weight: 1
   delay:
     durationMilliseconds: 1000
@@ -23,39 +23,39 @@ spec:
       message: Created container
     finalizers:
       add:
-        - value: "kwok.x-k8s.io/fake"
+        - value: kwok.x-k8s.io/fake
     statusTemplate: |
       {{ $now := Now }}
       {{ $nodeName := .spec.nodeName }}
       conditions:
       {{ if .spec.initContainers }}
         - lastProbeTime: null
-          lastTransitionTime: '{{ $now }}'
-          message: 'containers with incomplete status: [{{ range .spec.initContainers }} {{ .name }} {{ end }}]'
+          lastTransitionTime: {{ $now }}
+          message: containers with incomplete status: [{{ range .spec.initContainers }} {{ .name }} {{ end }}]
           reason: ContainersNotInitialized
-          status: "False"
+          status: False
           type: Initialized
       {{ else }}
         - lastProbeTime: null
-          lastTransitionTime: '{{ $now }}'
-          status: "True"
+          lastTransitionTime: {{ $now }}
+          status: True
           type: Initialized
       {{ end }}
         - lastProbeTime: null
-          lastTransitionTime: '{{ $now }}'
-          message: 'containers with unready status: [{{ range .spec.containers }} {{ .name }} {{ end }}]'
+          lastTransitionTime: {{ $now }}
+          message: containers with unready status: [{{ range .spec.containers }} {{ .name }} {{ end }}]
           reason: ContainersNotReady
-          status: "False"
+          status: False
           type: Ready
         - lastProbeTime: null
-          lastTransitionTime: '{{ $now }}'
-          message: 'containers with unready status: [{{ range .spec.containers }} {{ .name }} {{ end }}]'
+          lastTransitionTime: {{ $now }}
+          message: containers with unready status: [{{ range .spec.containers }} {{ .name }} {{ end }}]
           reason: ContainersNotReady
-          status: "False"
+          status: False
           type: ContainersReady
       {{ range .spec.readinessGates }}
         - lastTransitionTime: {{ $now }}
-          status: "True"
+          status: True
           type: {{ .conditionType }}
       {{ end }}
 
@@ -124,18 +124,18 @@ spec:
     kind: Pod
   selector:
     matchExpressions:
-      - key: ".metadata.deletionTimestamp"
-        operator: "DoesNotExist"
-      - key: ".status.phase"
-        operator: "In"
+      - key: .metadata.deletionTimestamp
+        operator: DoesNotExist
+      - key: .status.phase
+        operator: in
         values:
-          - "Pending"
-      - key: '.status.conditions.[] | select( .type == "Initialized" ) | .status'
-        operator: "NotIn"
+          - Pending
+      - key: .status.conditions.[] | select( .type == Initialized ) | .status
+        operator: NotIn
         values:
-          - "True"
-      - key: ".status.initContainerStatuses.[].state.waiting.reason"
-        operator: "Exists"
+          - True
+      - key: .status.initContainerStatuses.[].state.waiting.reason
+        operator: Exists
   weight: 1
   delay:
     durationMilliseconds: 1000
@@ -154,7 +154,7 @@ spec:
           started: true
           state:
             running:
-              startedAt: '{{ $now }}'
+              startedAt: {{ $now }}
         {{ end }}
 ---
 kind: Stage
@@ -167,18 +167,18 @@ spec:
     kind: Pod
   selector:
     matchExpressions:
-      - key: ".metadata.deletionTimestamp"
-        operator: "DoesNotExist"
-      - key: ".status.phase"
-        operator: "In"
+      - key: .metadata.deletionTimestamp
+        operator: DoesNotExist
+      - key: .status.phase
+        operator: In
         values:
-          - "Pending"
-      - key: '.status.conditions.[] | select( .type == "Initialized" ) | .status'
-        operator: "NotIn"
+          - Pending
+      - key: .status.conditions.[] | select( .type == Initialized ) | .status
+        operator: NotIn
         values:
-          - "True"
-      - key: ".status.initContainerStatuses.[].state.running.startedAt"
-        operator: "Exists"
+          - True
+      - key: .status.initContainerStatuses.[].state.running.startedAt
+        operator: Exists
   weight: 1
   delay:
     durationMilliseconds: 1000
@@ -189,8 +189,8 @@ spec:
       {{ $root := . }}
       conditions:
         - lastProbeTime: null
-          lastTransitionTime: '{{ $now }}'
-          status: "True"
+          lastTransitionTime: {{ $now }}
+          status: True
           type: Initialized
       initContainerStatuses:
         {{ range $index, $item := .spec.initContainers }}
@@ -203,9 +203,9 @@ spec:
           state:
             terminated:
               exitCode: 0
-              finishedAt: '{{ $now }}'
+              finishedAt: {{ $now }}
               reason: Completed
-              startedAt: '{{ $now }}'
+              startedAt: {{ $now }}
         {{ end }}
       containerStatuses:
         {{ range .spec.containers }}
@@ -229,20 +229,20 @@ spec:
     kind: Pod
   selector:
     matchExpressions:
-      - key: ".metadata.deletionTimestamp"
-        operator: "DoesNotExist"
-      - key: ".status.phase"
-        operator: "In"
+      - key: .metadata.deletionTimestamp
+        operator: DoesNotExist
+      - key: .status.phase
+        operator: In
         values:
-          - "Pending"
-      - key: '.status.conditions.[] | select( .type == "Initialized" ) | .status'
-        operator: "In"
+          - Pending
+      - key: .status.conditions.[] | select( .type == Initialized ) | .status
+        operator: In
         values:
-          - "True"
-      - key: '.status.conditions.[] | select( .type == "ContainersReady" ) | .status'
-        operator: "NotIn"
+          - True
+      - key: .status.conditions.[] | select( .type == ContainersReady ) | .status
+        operator: NotIn
         values:
-          - "True"
+          - True
   weight: 1
   delay:
     durationMilliseconds: 1000
@@ -254,16 +254,16 @@ spec:
       {{ $root := . }}
       conditions:
         - lastProbeTime: null
-          lastTransitionTime: '{{ $now }}'
-          message: ''
-          reason: ''
-          status: "True"
+          lastTransitionTime: {{ $now }}
+          message:
+          reason:
+          status: True
           type: Ready
         - lastProbeTime: null
-          lastTransitionTime: '{{ $now }}'
-          message: ''
-          reason: ''
-          status: "True"
+          lastTransitionTime: {{ $now }}
+          message:
+          reason:
+          status: True
           type: ContainersReady
       containerStatuses:
         {{ range $index, $item := .spec.containers }}
@@ -275,7 +275,7 @@ spec:
           started: true
           state:
             running:
-              startedAt: '{{ $now }}'
+              startedAt: {{ $now }}
         {{ end }}
       phase: Running
 ---
@@ -289,20 +289,20 @@ spec:
     kind: Pod
   selector:
     matchExpressions:
-      - key: ".metadata.deletionTimestamp"
-        operator: "DoesNotExist"
-      - key: ".status.phase"
-        operator: "In"
+      - key: .metadata.deletionTimestamp
+        operator: DoesNotExist
+      - key: .status.phase
+        operator: In
         values:
-          - "Running"
-      - key: '.status.conditions.[] | select( .type == "Ready" ) | .status'
-        operator: "In"
+          - Running
+      - key: .status.conditions.[] | select( .type == Ready ) | .status
+        operator: In
         values:
-          - "True"
-      - key: ".metadata.ownerReferences.[].kind"
-        operator: "In"
+          - True
+      - key: .metadata.ownerReferences.[].kind
+        operator: In
         values:
-          - "Job"
+          - Job
   weight: 1
   delay:
     durationMilliseconds: 1000
@@ -323,9 +323,9 @@ spec:
           state:
             terminated:
               exitCode: 0
-              finishedAt: '{{ $now }}'
+              finishedAt: {{ $now }}
               reason: Completed
-              startedAt: '{{ $now }}'
+              startedAt: {{ $now }}
         {{ end }}
       phase: Succeeded
 ---
@@ -339,12 +339,12 @@ spec:
     kind: Pod
   selector:
     matchExpressions:
-      - key: ".metadata.deletionTimestamp"
-        operator: "Exists"
-      - key: ".metadata.finalizers.[]"
-        operator: "In"
+      - key: .metadata.deletionTimestamp
+        operator: Exists
+      - key: .metadata.finalizers.[]
+        operator: In
         values:
-          - "kwok.x-k8s.io/fake"
+          - kwok.x-k8s.io/fake
   weight: 1
   delay:
     durationMilliseconds: 1000
@@ -352,7 +352,7 @@ spec:
   next:
     finalizers:
       remove:
-        - value: "kwok.x-k8s.io/fake"
+        - value: kwok.x-k8s.io/fake
     event:
       type: Normal
       reason: Killing
@@ -368,14 +368,14 @@ spec:
     kind: Pod
   selector:
     matchExpressions:
-      - key: ".metadata.deletionTimestamp"
-        operator: "Exists"
-      - key: ".metadata.finalizers"
-        operator: "DoesNotExist"
+      - key: .metadata.deletionTimestamp
+        operator: Exists
+      - key: .metadata.finalizers
+        operator: DoesNotExist
   weight: 1
   delay:
     durationMilliseconds: 1000
     jitterDurationFrom:
-      expressionFrom: ".metadata.deletionTimestamp"
+      expressionFrom: .metadata.deletionTimestamp
   next:
     delete: true
