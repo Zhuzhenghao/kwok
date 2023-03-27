@@ -30,7 +30,7 @@ type KwokctlConfiguration struct {
 	Options KwokctlConfigurationOptions
 	// Components holds information about the components.
 	Components []Component
-	// ComponentsPatches holds information about the components patches.
+	// ComponentsPatches holds information about the components dpatches.
 	ComponentsPatches []ComponentPatches
 }
 
